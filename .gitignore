@@ -1,0 +1,5 @@
+## ignore these files##
+.idea/
+/results/YOLOv3_ECO
+/results/CenterNet_ECO
+/video
