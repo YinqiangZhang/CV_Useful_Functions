@@ -1,5 +1,11 @@
 ## ignore these files##
 .idea/
 /results/YOLOv3_ECO
+/results/MOT16_train
 /results/CenterNet_ECO
+/results/YOLOv3_ECO_Video2/
+/results/YOLOv3_ECO_test/
+/results/results1_deepsort_yolo/
+/results/results3_deepsort_centernet/
+
 /video

@@ -56,14 +56,19 @@ class ResultsEvaluation(object):
             txt_path = os.path.join(dataset_path, file)
             img_dir = os.path.join(self.raw_img_dir, filename, 'img1')
             # the list of dataset images
-            img_list = (img for img in os.listdir(img_dir))
+            img_list = os.listdir(img_dir)
+
+            img_path = os.path.join(img_dir, img_list[0])
+            test_im = cv2.imread(img_path)
+            self.size = (test_im.shape[1], test_im.shape[0])
+            print(self.size)
 
             # read the results file from MOT algorithm
             res_data = np.loadtxt(txt_path, delimiter=',')
 
             if self.enable_video:
                 video_path = os.path.join(self.video_results_dir, '{}.mp4'.format(filename))
-                writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), self.fps, self.size)
+                writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'XVID'), self.fps, self.size)
 
             for i, img in enumerate(img_list, 1):
                 img_path = os.path.join(img_dir, img)
@@ -100,10 +105,10 @@ class ResultsEvaluation(object):
 
 if __name__ == '__main__':
 
-    env_name = 'CenterNet_ECO'
+    env_name = 'YOLOv3_ECO_Video2'
     env_data_dir = '.\\results'
     vis_results_dir = '.\\video'
-    raw_img_dir = '..\\DMAN_MOT-master\\data\\MOT_ZJ\\train'
+    raw_img_dir = '..\\MOT_MUST\\TrackingCode\\data\\MOT_ZJ\\train'
 
     enable_video = True
     enable_visual = False
