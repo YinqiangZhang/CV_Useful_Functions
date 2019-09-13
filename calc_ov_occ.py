@@ -3,14 +3,12 @@ import numpy as np
 def calc_overlap_occlusion(bboxes1, bboxes2, idx1_list=None, idx2_list=None):
     
     """
-    caculate the overlap ratios and occluded ratios between 
+    caculate the overlap ratios and occluded ratios between
     bboxes1[idx1_list,:] and bboxes2[idx2_list, :]
-
-    return: Overlap, Occlusion1, Occlusion2
     """
-    # get the selected bounding boxes
-    bbs1 = bboxes1 if idx1_list is None else bboxes1[idx1_list, :]
-    bbs2 = bboxes2 if idx2_list is None else bboxes2[idx2_list, :]
+    # get the selected bounding boxes, use deep copy to not affect the original bboxes
+    bbs1 = bboxes1.copy() if idx1_list is None else bboxes1[idx1_list, :].copy()
+    bbs2 = bboxes2.copy() if idx2_list is None else bboxes2[idx2_list, :].copy()
     
     bbs1 = bbs1[np.newaxis, :] if bbs1.ndim == 1 else bbs1
     bbs2 = bbs2[np.newaxis, :] if bbs2.ndim == 1 else bbs2
@@ -45,14 +43,17 @@ def calc_overlap_occlusion(bboxes1, bboxes2, idx1_list=None, idx2_list=None):
         # calculate the area of the intersection region
         inter_area = inter_w * inter_h
         # calcualte the area of the union region
-        union_area = area1 + area2 - inter_area
+        union_area = area1[ii] + area2 - inter_area
 
         # calculate overlap and occlusion
+        # the overlap ratios
         ov[ii, :] = inter_area / union_area
-        occ1[ii, :] = inter_area / area1
+        # occlusion ratios with respect to bboxes1 set 
+        occ1[ii, :] = inter_area / area1[ii]
+        # occlusion ratios with respect to bboxes2 set
         occ2[ii, :] = inter_area / area2
     
-    return ov, occ1, occ2
+    return ov, occ1, occ2 
 
 
 if __name__ == "__main__":
