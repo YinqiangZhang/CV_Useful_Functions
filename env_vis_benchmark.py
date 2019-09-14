@@ -57,6 +57,7 @@ class ResultsEvaluation(object):
             img_dir = os.path.join(self.raw_img_dir, filename, 'img1')
             # the list of dataset images
             img_list = os.listdir(img_dir)
+            img_list.sort()
 
             img_path = os.path.join(img_dir, img_list[0])
             test_im = cv2.imread(img_path)
